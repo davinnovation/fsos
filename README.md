@@ -13,9 +13,13 @@ fsos.bucket_exists("my-bucket", ROOT_PATH)
 fsos.list_buckets(ROOT_PATH)
 
 fsos.list_objects("my-bucket", ROOT_PATH)
-fsos.put_object("my-bucket", "my-object", io.BytesIO(b"hello"))
-fsos.get_object("my-bucket", "my-object")
 
-fsos.put_filepath("my-bucket", "my-image.png", PIL.Image)
+fsos.put_filepath("my-bucket", "my-image.png")
 fsos.get_filepath("my-bucket", "my-image.png")
+```
+
+```
+from fsos.utils import folder2bucket
+
+folder2bucket("dir2bucket", FOLDER_PATH)
 ```
