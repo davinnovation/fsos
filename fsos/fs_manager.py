@@ -4,8 +4,9 @@ import shutil
 from pathlib import Path
 
 import fsos
-from fsos import DEFAULT_FSOS_NAME
 
+
+DEFAULT_FSOS_NAME = ".fsos"
 FSOS_VERSION_KEY = "fsos_version"
 FSOS_BUCKET_KEY = "buckets"
 

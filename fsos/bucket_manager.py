@@ -1,9 +1,11 @@
 from pathlib import Path
 
-from fsos import DEFAULT_ROOT_PATH
 from fsos import fs_manager as fsm
 from fsos import os_manager as osm
 from fsos.deco import fsos_init_checker
+
+
+DEFAULT_ROOT_PATH = str(Path(Path.home(), ".fsos"))
 
 
 @fsos_init_checker

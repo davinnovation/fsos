@@ -22,30 +22,30 @@ OS structure
 
 
 @os_failure_checker
-def _list_bucket(ROOT_PATH: str) -> list:
+def _list_bucket(root_path: str) -> list:
     """get list of bucket in root fsos"""
     return list(fsm._get_db()[fsm.FSOS_BUCKET_KEY].keys())
 
 
 @os_failure_checker
-def _check_bucket(bucket_name: str, ROOT_PATH: str) -> bool:
+def _check_bucket(bucket_name: str, root_path: str) -> bool:
     """check bucket is exist in root fsos"""
     return bucket_name in fsm._get_db()[fsm.FSOS_BUCKET_KEY].keys()
 
 
 @os_failure_checker
-def _add_bucket(bucket_name: str, ROOT_PATH: str) -> bool:
+def _add_bucket(bucket_name: str, root_path: str) -> bool:
     """add bucket folder & fsos db"""
     fsm._get_db()[fsm.FSOS_BUCKET_KEY][bucket_name] = {}
-    fsm._create_folder(ROOT_PATH, bucket_name)
+    fsm._create_folder(root_path, bucket_name)
     return True
 
 
 @os_failure_checker
-def _remove_bucket(bucket_name: str, ROOT_PATH: str) -> bool:
+def _remove_bucket(bucket_name: str, root_path: str) -> bool:
     """remove bucket folder & fsos db"""
     del fsm._get_db()[fsm.FSOS_BUCKET_KEY][bucket_name]
-    fsm._remove_folder(ROOT_PATH, bucket_name)
+    fsm._remove_folder(root_path, bucket_name)
     return True
 
 
@@ -54,7 +54,7 @@ def _copy_object(
     bucket_name: str,
     object_name: str,
     from_path: str,
-    ROOT_PATH: str,
+    root_path: str,
     ignore_exist=False,
 ) -> bool:
     """copy file in fsos system"""
@@ -63,7 +63,7 @@ def _copy_object(
         "meta": {},
     }
     fsm._copy_file(
-        normpath(from_path), normpath(join(ROOT_PATH, bucket_name, object_name))
+        normpath(from_path), normpath(join(root_path, bucket_name, object_name))
     )
     return True
 
@@ -73,7 +73,7 @@ def _add_object(
     bucket_name: str,
     object_name: str,
     object: bytes,
-    ROOT_PATH: str,
+    root_path: str,
     ignore_exist=False,
 ) -> bool:
     """save byte in fsos system"""
@@ -82,15 +82,15 @@ def _add_object(
 
 
 @os_failure_checker
-def _remove_object(bucket_name: str, object_name: str, ROOT_PATH: str) -> bool:
+def _remove_object(bucket_name: str, object_name: str, root_path: str) -> bool:
     del fsm._get_db()[fsm.FSOS_BUCKET_KEY][bucket_name][object_name]
-    fsm._remove_file(normpath(join(ROOT_PATH, bucket_name, object_name)))
+    fsm._remove_file(normpath(join(root_path, bucket_name, object_name)))
     return True
 
 
 @os_failure_checker
 def _update_object_meta(
-    bucket_name: str, object_name: str, meta_info: dict, ROOT_PATH: str
+    bucket_name: str, object_name: str, meta_info: dict, root_path: str
 ) -> bool:
     object_info = fsm._get_db()[fsm.FSOS_BUCKET_KEY][bucket_name][object_name]
     object_info["meta"] = meta_info
@@ -98,12 +98,12 @@ def _update_object_meta(
 
 
 def _update_object(
-    bucket_name: str, object_name: str, object: bytes, ROOT_PATH: str
+    bucket_name: str, object_name: str, object: bytes, root_path: str
 ) -> bool:
     # TODO
     return True
 
 
 @os_failure_checker
-def _list_object(bucket_name: str, ROOT_PATH: str) -> list:
+def _list_object(bucket_name: str, root_path: str) -> list:
     return list(fsm._get_db()[fsm.FSOS_BUCKET_KEY][bucket_name].keys())
