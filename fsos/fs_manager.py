@@ -1,20 +1,20 @@
 import os
-from pathlib import Path
 import json
+import shutil
+from pathlib import Path
 
 import fsos
+from fsos import DEFAULT_FSOS_NAME
 
-DEFAULT_ROOT_PATH = str(Path(Path.home(), ".fsos"))
-DEFAULT_FSOS_NAME = ".fsos"
+FSOS_VERSION_KEY = "fsos_version"
+FSOS_BUCKET_KEY = "buckets"
 
 
 def _get_version() -> dict:
-    return {
-        "fsos_version": fsos.__version__
-    }
+    return {FSOS_VERSION_KEY: fsos.__version__}
 
 
-def _init_db(db: dict) -> None:
+def _set_db(db: dict) -> None:
     fsos._FSOS_DB = db
 
 
@@ -22,43 +22,49 @@ def _get_db() -> dict:
     return fsos._FSOS_DB
 
 
-def _check_fsos(ROOT_PATH=DEFAULT_ROOT_PATH):
+def _check_fsos(ROOT_PATH: str) -> bool:
     return Path(os.path.join(ROOT_PATH), DEFAULT_FSOS_NAME).exists()
 
 
-def _create_fsos(ROOT_PATH=DEFAULT_ROOT_PATH):
-    Path(DEFAULT_ROOT_PATH).mkdir(parents=True, exist_ok=True)
-    _init_db({**_get_version(), **{"buckets": {}}})
+def _create_fsos(ROOT_PATH: str) -> bool:
+    Path(ROOT_PATH).mkdir(parents=True, exist_ok=True)
+    _set_db({**_get_version(), **{FSOS_BUCKET_KEY: {}}})
     _update_fsos(ROOT_PATH)
 
+    return True
 
-def _update_fsos(ROOT_PATH=DEFAULT_ROOT_PATH):
-    with open(Path(os.path.join(ROOT_PATH), DEFAULT_FSOS_NAME), 'w') as out:
+
+def _update_fsos(ROOT_PATH: str) -> bool:
+    with open(Path(os.path.join(ROOT_PATH), DEFAULT_FSOS_NAME), "w") as out:
         json.dump(_get_db(), out)
 
+    return True
 
-def _load_fsos(ROOT_PATH=DEFAULT_ROOT_PATH):
-    with open(Path(os.path.join(ROOT_PATH), DEFAULT_FSOS_NAME), 'r') as out:
+
+def _load_fsos(ROOT_PATH: str) -> bool:
+    with open(Path(os.path.join(ROOT_PATH), DEFAULT_FSOS_NAME), "r") as out:
         temp_db = None
         json.load(out, temp_db)
-        _init_db(temp_db)
+        _set_db(temp_db)
+
+    return True
 
 
-def _add_bucket(bucket_name: str, ROOT_PATH=DEFAULT_ROOT_PATH):
-    return
+def _create_folder(ROOT_PATH: str, subdir: str) -> bool:
+    Path(ROOT_PATH, subdir).mkdir()
+    return True
 
 
-def _remove_bucket(bucket_name: str, ROOT_PATH=DEFAULT_ROOT_PATH):
-    return
+def _remove_folder(ROOT_PATH: str, subdir: str) -> bool:
+    Path(ROOT_PATH, subdir).rmdir()
+    return True
 
 
-def _add_object(bucket_name: str, object_name: str, object: bytes, ROOT_PATH=DEFAULT_ROOT_PATH, ignore_exist=False):
-    pass
+def _copy_file(from_path: str, to_path: str) -> bool:
+    shutil.copy(Path(from_path), Path(to_path))
+    return True
 
 
-def _remove_object(bucket_name: str, object_name: str, ROOT_PATH=DEFAULT_ROOT_PATH):
-    pass
-
-
-def _update_object(bucket_name, object_name: str, object: bytes, ROOT_PATH=DEFAULT_ROOT_PATH):
-    pass
+def _remove_file(file_path: str) -> bool:
+    shutil.rmtree(Path(file_path))
+    return True
