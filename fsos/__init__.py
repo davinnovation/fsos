@@ -1,6 +1,16 @@
 import sys
 from pathlib import Path
 
+from fsos.bucket_manager import (
+    make_bucket,
+    remove_bucket,
+    bucket_exists,
+    list_buckets,
+    put_filepath,
+    get_filepaths,
+    get_objects,
+)
+
 this = sys.modules[__name__]
 this._FSOS_DB = None
 

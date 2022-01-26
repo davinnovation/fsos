@@ -30,13 +30,8 @@ def bucket_exists(bucket_name: str, root_path: str = DEFAULT_ROOT_PATH) -> bool:
 
 
 @fsos_init_checker
-def list_buckets(root_path: str = DEFAULT_ROOT_PATH) -> bool:
+def bucket_list(root_path: str = DEFAULT_ROOT_PATH) -> list:
     return osm._list_bucket(root_path)
-
-
-@fsos_init_checker
-def list_objects(bucket_name: str, root_path: str = DEFAULT_ROOT_PATH):
-    return osm._list_object(bucket_name, root_path)
 
 
 @fsos_init_checker
