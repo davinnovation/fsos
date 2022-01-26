@@ -23,6 +23,8 @@ jobs:
       # Build Python Fire using the build.sh script.
       - name: Run build script
         shell: bash
-        run: ./.github/scripts/build.sh
+        run: |
+          git update-index --chmod=+x ./.github/scripts/build.sh
+          ./.github/scripts/build.sh
         env:
           PYTHON_VERSION: ${{ matrix.python-version }}
