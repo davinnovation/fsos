@@ -44,16 +44,17 @@ def put_filepath(
     bucket_name: str,
     object_name: str,
     from_filepath: str,
+    meta_info: dict = None,
     root_path: str = DEFAULT_ROOT_PATH,
 ) -> bool:
     osm._copy_object(bucket_name, object_name, from_filepath, root_path)
+    if meta_info:
+        osm._update_object_meta(bucket_name, object_name, meta_info, root_path)
     return True
 
 
 @fsos_init_checker
-def get_filepath(
-    bucket_name: str, object_name: str, root_path: str = DEFAULT_ROOT_PATH
-) -> list:
+def get_filepaths(bucket_name: str, root_path: str = DEFAULT_ROOT_PATH) -> list:
     temp_list = []
     for object_key in osm._list_object(bucket_name, root_path):
         temp_list.append(
@@ -62,9 +63,13 @@ def get_filepath(
     return temp_list
 
 
+@fsos_init_checker
+def get_objects(bucket_name: str, root_path: str = DEFAULT_ROOT_PATH) -> list:
+    temp_list = []
+    for object_key in osm._list_object(bucket_name, root_path):
+        temp_list.append(Path(root_path, fsm._get_db()[bucket_name][object_key]))
+    return temp_list
+
+
 # def put_objects(bucket_name: str, object_name: str, root_path: str):
-#     return
-
-
-# def get_objects(bucket_name: str, object_name: str, root_path: str):
 #     return
