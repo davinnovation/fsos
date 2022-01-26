@@ -1,3 +1,4 @@
+import datetime
 from os.path import normpath, join
 
 from fsos import fs_manager as fsm
@@ -61,9 +62,11 @@ def _copy_object(
     fsm._get_db()[fsm.FSOS_BUCKET_KEY][bucket_name][object_name] = {
         "path": f"{bucket_name}/{object_name}",
         "meta": {},
+        "created_time": datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     }
     fsm._copy_file(
-        normpath(from_path), normpath(join(root_path, bucket_name, object_name))
+        normpath(from_path), normpath(
+            join(root_path, bucket_name, object_name))
     )
     return True
 

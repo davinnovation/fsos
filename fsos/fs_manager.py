@@ -67,5 +67,5 @@ def _copy_file(from_path: str, to_path: str) -> bool:
 
 
 def _remove_file(file_path: str) -> bool:
-    shutil.rmtree(Path(file_path))
+    Path(file_path).unlink()
     return True

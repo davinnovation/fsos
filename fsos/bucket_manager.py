@@ -53,7 +53,8 @@ def get_filepaths(bucket_name: str, root_path: str = DEFAULT_ROOT_PATH) -> list:
     temp_list = []
     for object_key in osm._list_object(bucket_name, root_path):
         temp_list.append(
-            Path(root_path, fsm._get_db()[bucket_name][object_key]["path"])
+            Path(root_path, fsm._get_db()[
+                 fsm.FSOS_BUCKET_KEY][bucket_name][object_key]["path"])
         )
     return temp_list
 
@@ -62,10 +63,15 @@ def get_filepaths(bucket_name: str, root_path: str = DEFAULT_ROOT_PATH) -> list:
 def get_objects(bucket_name: str, root_path: str = DEFAULT_ROOT_PATH) -> list:
     temp_list = []
     for object_key in osm._list_object(bucket_name, root_path):
-        temp_list.append(Path(root_path, fsm._get_db()
+        temp_list.append(Path(root_path, fsm._get_db()[fsm.FSOS_BUCKET_KEY]
                               [bucket_name][object_key]))
     return temp_list
 
+
+@fsos_init_checker
+def remove_object(bucket_name: str, object_name: str, root_path: str = DEFAULT_ROOT_PATH) -> bool:
+    osm._remove_object(bucket_name, object_name, root_path)
+    return True
 
 # def put_objects(bucket_name: str, object_name: str, root_path: str):
 #     return
