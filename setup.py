@@ -4,15 +4,11 @@ DESCRIPTION = """
 minio like python Local File System based Object Storage (FSOS)
 """.strip()
 
-DEPENDENCIES = [
+DEPENDENCIES = []
 
-]
+TEST_DEPENDENCIES = []
 
-TEST_DEPENDENCIES = [
-
-]
-
-VERSION = '0.0.1'
+VERSION = "0.0.1"
 URL = "https://github.com/davinnovation/fsos"
 
 setup(
@@ -20,9 +16,7 @@ setup(
     version=VERSION,
     description=DESCRIPTION,
     url=URL,
-    
-    packages=['fsos', 'fsos.utils'],
-    
+    packages=["fsos"],
     install_requires=DEPENDENCIES,
-    test_requires=TEST_DEPENDENCIES
+    test_requires=TEST_DEPENDENCIES,
 )
