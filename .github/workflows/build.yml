@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.5, 3.7, 3.8, 3.9]
+        python-version: [3.5, 3.6, 3.7, 3.8, 3.9]
 
     steps:
       # Checkout the repo.
@@ -24,7 +24,7 @@ jobs:
       - name: Run build script
         shell: bash
         run: |
-          git update-index --chmod=+x ./.github/scripts/build.sh
+          sudo chmod +x ./.github/scripts/build.sh
           ./.github/scripts/build.sh
         env:
           PYTHON_VERSION: ${{ matrix.python-version }}
