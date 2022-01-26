@@ -10,11 +10,9 @@ DEFAULT_ROOT_PATH = str(Path(Path.home(), ".fsos"))
 
 @fsos_init_checker
 def make_bucket(bucket_name: str, root_path: str = DEFAULT_ROOT_PATH) -> bool:
-    return (
-        False
-        if not osm._check_bucket(bucket_name, root_path)
-        else osm._add_bucket(bucket_name, root_path)
-    )
+    if not osm._check_bucket(bucket_name, root_path):
+        return osm._add_bucket(bucket_name, root_path)
+    return False
 
 
 @fsos_init_checker
@@ -64,7 +62,8 @@ def get_filepaths(bucket_name: str, root_path: str = DEFAULT_ROOT_PATH) -> list:
 def get_objects(bucket_name: str, root_path: str = DEFAULT_ROOT_PATH) -> list:
     temp_list = []
     for object_key in osm._list_object(bucket_name, root_path):
-        temp_list.append(Path(root_path, fsm._get_db()[bucket_name][object_key]))
+        temp_list.append(Path(root_path, fsm._get_db()
+                              [bucket_name][object_key]))
     return temp_list
 
 
