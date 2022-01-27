@@ -19,4 +19,10 @@ setup(
     packages=["fsos"],
     install_requires=DEPENDENCIES,
     test_requires=TEST_DEPENDENCIES,
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent"
+    ],
+    python_requires='>=3.6',
 )

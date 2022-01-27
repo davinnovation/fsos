@@ -3,7 +3,6 @@ from functools import wraps
 import copy
 
 from fsos import fs_manager as fsm
-from fsos import os_manager as osm
 
 BUCKET_ARGNAME = "bucket_name"
 ROOT_ARGNAME = "root_path"

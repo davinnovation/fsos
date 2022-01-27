@@ -1,6 +1,10 @@
 name: Python FSOS
 
-on: [push]
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
 
 jobs:
   build:
@@ -25,7 +29,9 @@ jobs:
       - name: Run build script
         shell: bash
         run: |
-          sudo chmod +x ./.github/scripts/build.sh
-          ./.github/scripts/build.sh
+          pip install --upgrade setuptools pip
+          pip install --upgrade pylint pytest pytest-pylint pytest-runner
+          python setup.py develop
+          python -m pytest
         env:
           PYTHON_VERSION: ${{ matrix.python-version }}
